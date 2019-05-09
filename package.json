@@ -1,0 +1,15 @@
+{
+  "name": "volvocarsdotcom-meter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "isomorphic-unfetch": "^3.0.0",
+    "lodash": "^4.17.11",
+    "xml-js": "^1.6.11"
+  }
+}
