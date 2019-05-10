@@ -1,8 +1,8 @@
 Market, Number of pages
-uk,3473
+uk,3448
 zh-cn,728
-es,700
 fi,700
+es,699
 hu,696
 de-ch,635
 ru,609
@@ -12,7 +12,7 @@ it-ch,552
 pl,551
 fr,547
 ie,520
-de,504
+de,503
 uk-ua,500
 au,485
 no,483
@@ -29,12 +29,12 @@ za,431
 rs,427
 hr,418
 cl,412
-dk,392
 intl,391
 sk,390
 by,388
-at,385
 us,384
+dk,382
+at,380
 ba,364
 gr,348
 en-th,346
@@ -68,11 +68,11 @@ en-jo,227
 nl,224
 az,223
 en-qa,222
-se,222
 il,218
 is,217
 mt,215
 ar-qa,215
+se,215
 py,181
 ar-eg,174
 en-eg,171
@@ -90,4 +90,4 @@ centralamerica,0
 el-cy,0
 lb,0
 th,0
-TOTAL, 32513
+TOTAL, 32464

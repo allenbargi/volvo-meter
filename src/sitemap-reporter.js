@@ -51,12 +51,33 @@ const fetchVolvoCarsSiteMap = async url => {
 
   const results = await Promise.all(promises);
 
+  const page = require("./page");
+
+  results.forEach(m => {
+    m.pages.forEach(p => {
+      try {
+        page.create({
+          market: m.marketName,
+          url: p.url,
+          lastmod: p.lastmod
+        });
+      } catch (error) {
+        console.log(error);
+        console.dir(p, { depth: null, colors: true });
+        console.log("----------------------");
+      }
+    });
+  });
+
   const csv = numberOfPagesInCSV(results);
-  const fileName = path.join(__dirname, "data/markets-number-of-pages.csv");
+  const fileName = path.join(__dirname, "../data/markets-number-of-pages.csv");
   fs.writeFileSync(fileName, csv);
 
   results.map(m => {
-    const fileName = path.join(__dirname, `data/markets/${m.marketName}.csv`);
+    const fileName = path.join(
+      __dirname,
+      `../data/markets/${m.marketName}.csv`
+    );
     fs.writeFileSync(
       fileName,
       "URL, LastMod\n" + m.pages.map(p => `${p.url}, ${p.lastmod}`).join("\n")
