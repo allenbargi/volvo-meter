@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "fetch": "node src/sitemap_reporter.js",
-    "score": "node src/lighthouse_score.js"
+    "score": "node src/lighthouse_score.js",
+    "bootstrap": "node db/bootstrap.js"
   },
   "keywords": [],
   "author": "",

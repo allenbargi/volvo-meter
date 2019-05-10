@@ -42,7 +42,7 @@ const lighthouseReport = async (
 
     page.updateLightHouseScore({
       ...summary,
-      lh_report: results.report,
+      lh_created_at: new Date(),
       url: p.url
     });
     p = page.needsLightHouseScore();

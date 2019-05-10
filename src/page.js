@@ -17,10 +17,10 @@ const DELETE_ALL = db.prepare("DELETE FROM pages");
 const DESTROY = db.prepare("DELETE FROM pages where url=?");
 
 const NEEDS_LIGHT_HOUSE_SCORE = db.prepare(
-  "SELECT * from pages WHERE lh_report IS NULL LIMIT 1"
+  "SELECT * from pages WHERE lh_p IS NULL LIMIT 1"
 );
 const UPDATE_LIGHT_HOUSE_SCORE = db.prepare(
-  "UPDATE pages SET lh_p=@lh_p, lh_b=@lh_b, lh_a=@lh_a, lh_s=@lh_s, lh_report=@lh_report WHERE url=@url"
+  "UPDATE pages SET lh_p=@lh_p, lh_b=@lh_b, lh_a=@lh_a, lh_s=@lh_s, lh_created_at=@lh_created_at WHERE url=@url"
 );
 
 class Page {

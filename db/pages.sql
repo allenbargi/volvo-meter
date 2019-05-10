@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS "pages";
+
 CREATE TABLE "pages" (
   "id" integer NOT NULL,
   "url" varchar NOT NULL,
@@ -7,7 +9,7 @@ CREATE TABLE "pages" (
   "lh_a" integer,
   "lh_b" integer,
   "lh_s" integer,
-  "lh_report" blob,
+  "lh_created_at" datetime,
   PRIMARY KEY (id)
 );
 
