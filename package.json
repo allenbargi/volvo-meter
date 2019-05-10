@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "fetch": "node src/sitemap-reporter.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

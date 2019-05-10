@@ -1,9 +1,6 @@
 const fetch = require("isomorphic-unfetch");
 const convert = require("xml-js");
 const get = require("lodash/get");
-const orderBy = require("lodash/orderBy");
-const fs = require("fs");
-const path = require("path");
 
 const fetchSiteMap = async url => {
   const res = await fetch(url);
@@ -30,16 +27,6 @@ const fetchMarketSiteMap = async url => {
   }
 };
 
-const numberOfPagesInCSV = results => {
-  return (
-    "Market, Number of pages\n" +
-    orderBy(results, m => m.pages.length, "desc")
-      .map(m => `${m.marketName},${m.pages.length}`)
-      .join("\n") +
-    `\nTOTAL, ${results.reduce((accu, m) => accu + m.pages.length, 0)}`
-  );
-};
-
 const fetchVolvoCarsSiteMap = async url => {
   const data = await fetchSiteMap(url);
   const marketsSitemaps = data.sitemapindex.sitemap.map(x => x.loc._text);
@@ -50,39 +37,11 @@ const fetchVolvoCarsSiteMap = async url => {
   );
 
   const results = await Promise.all(promises);
+  const syncWithDB = require("./sync_with_db");
+  syncWithDB(results);
 
-  const page = require("./page");
-
-  results.forEach(m => {
-    m.pages.forEach(p => {
-      try {
-        page.create({
-          market: m.marketName,
-          url: p.url,
-          lastmod: p.lastmod
-        });
-      } catch (error) {
-        console.log(error);
-        console.dir(p, { depth: null, colors: true });
-        console.log("----------------------");
-      }
-    });
-  });
-
-  const csv = numberOfPagesInCSV(results);
-  const fileName = path.join(__dirname, "../data/markets-number-of-pages.csv");
-  fs.writeFileSync(fileName, csv);
-
-  results.map(m => {
-    const fileName = path.join(
-      __dirname,
-      `../data/markets/${m.marketName}.csv`
-    );
-    fs.writeFileSync(
-      fileName,
-      "URL, LastMod\n" + m.pages.map(p => `${p.url}, ${p.lastmod}`).join("\n")
-    );
-  });
+  const syncWithFS = require("./sync_with_fs");
+  syncWithFS(results);
 };
 
 fetchVolvoCarsSiteMap("https://www.volvocars.com/sitemap-index.xml");
