@@ -1,3 +1,10 @@
 {
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "sqltools.connections": [
+    {
+      "database": "/Users/abargi/volvo/volvocarsdotcom-meter/db/volvo.sqlite3",
+      "dialect": "SQLite",
+      "name": "volvo"
+    }
+  ]
 }

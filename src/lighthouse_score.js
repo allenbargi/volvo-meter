@@ -13,39 +13,42 @@ const killChrome = async () => {
 
 const getSummary = report => {
   return {
-    lh_p: parseInt(report.categories["performance"].score * 100, 10),
-    lh_b: parseInt(report.categories["best-practices"].score * 100, 10),
-    lh_a: parseInt(report.categories["accessibility"].score * 100, 10),
-    lh_s: parseInt(report.categories["seo"].score * 100, 10)
+    lh_p: Math.round(report.categories["performance"].score * 100),
+    lh_b: Math.round(report.categories["best-practices"].score * 100),
+    lh_a: Math.round(report.categories["accessibility"].score * 100),
+    lh_s: Math.round(report.categories["seo"].score * 100)
   };
 };
 
 const lighthouseReport = async (
-  opts = {
-    chromeFlags: ["--headless"]
-  },
+  opts = { chromeFlags: ["--headless"] },
   config = null
 ) => {
   await launchChrome(opts);
 
   let p = page.needsLightHouseScore();
-  console.log(p.url);
 
   while (p) {
-    const results = await lighthouse(
-      p.url,
-      { ...opts, port: chrome.port },
-      config
-    );
-    const summary = getSummary(JSON.parse(results.report));
-    console.log(summary);
+    try {
+      console.log(p.url);
+      const results = await lighthouse(
+        p.url,
+        { ...opts, port: chrome.port },
+        config
+      );
+      const summary = getSummary(JSON.parse(results.report));
+      console.log(summary);
 
-    page.updateLightHouseScore({
-      ...summary,
-      lh_created_at: new Date(),
-      url: p.url
-    });
-    p = page.needsLightHouseScore();
+      page.updateLightHouseScore({
+        ...summary,
+        lh_created_at: new Date().getTime(),
+        url: p.url
+      });
+      p = page.needsLightHouseScore();
+    } catch (error) {
+      p = page.needsLightHouseScore(p.id + 1);
+      console.log(error);
+    }
   }
 
   await killChrome();

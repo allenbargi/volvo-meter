@@ -19,6 +19,9 @@ const DESTROY = db.prepare("DELETE FROM pages where url=?");
 const NEEDS_LIGHT_HOUSE_SCORE = db.prepare(
   "SELECT * from pages WHERE lh_p IS NULL LIMIT 1"
 );
+const NEEDS_LIGHT_HOUSE_SCORE_WITH_ID = db.prepare(
+  "SELECT * from pages WHERE lh_p IS NULL AND id=? LIMIT 1"
+);
 const UPDATE_LIGHT_HOUSE_SCORE = db.prepare(
   "UPDATE pages SET lh_p=@lh_p, lh_b=@lh_b, lh_a=@lh_a, lh_s=@lh_s, lh_created_at=@lh_created_at WHERE url=@url"
 );
@@ -30,7 +33,10 @@ class Page {
   destroy = url => DESTROY.run(url);
   deleteAll = () => DELETE_ALL.run();
   findAllInMarket = market => FIND_ALL_IN_MARKET.all(market);
-  needsLightHouseScore = () => NEEDS_LIGHT_HOUSE_SCORE.get();
+  needsLightHouseScore = id =>
+    id
+      ? NEEDS_LIGHT_HOUSE_SCORE_WITH_ID.get(id)
+      : NEEDS_LIGHT_HOUSE_SCORE.get();
   updateLightHouseScore = payload => UPDATE_LIGHT_HOUSE_SCORE.run(payload);
 }
 
