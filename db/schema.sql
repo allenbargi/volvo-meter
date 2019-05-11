@@ -10,6 +10,7 @@ CREATE TABLE "pages" (
   "lh_b" integer,
   "lh_s" integer,
   "lh_created_at" datetime,
+  "analyzed_at" datetime,
   PRIMARY KEY (id)
 );
 
