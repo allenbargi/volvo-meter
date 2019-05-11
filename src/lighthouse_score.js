@@ -1,3 +1,4 @@
+// TODO: write a separate batch score and a single scorer
 const lighthouse = require("lighthouse");
 const chromeLauncher = require("chrome-launcher");
 const page = require("./page");
@@ -7,6 +8,7 @@ let chrome = null;
 const launchChrome = async opts => {
   chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
 };
+
 const killChrome = async () => {
   await chrome.kill();
 };

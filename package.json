@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fetch": "node src/sitemap_reporter.js",
+    "fetch": "node batch/fetch_sitemap.js",
+    "analyze": "node batch/analyze_pages.js",
     "score": "node src/lighthouse_score.js",
     "bootstrap": "node db/bootstrap.js"
   },

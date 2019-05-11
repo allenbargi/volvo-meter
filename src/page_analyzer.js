@@ -1,14 +1,12 @@
 const cheerio = require("cheerio");
 const fetch = require("isomorphic-unfetch");
 const page = require("./page");
-const { forEachSeries } = require("p-iteration");
-const delay = ms => new Promise(resolve => setTimeout(() => resolve(ms), ms));
-const markets = page.allMarkets().map(p => p.market);
+const pageModules = require("./page_modules");
 
 const detectModuleName = (id, classNames) =>
   id ? id.split("_")[0] : classNames.split(" ").join("-");
 
-const fetchPage = async url => {
+const fetchPage = async ({ url, id }) => {
   try {
     const res = await fetch(url);
     const html = await res.text();
@@ -33,18 +31,19 @@ const fetchPage = async url => {
 
     if (content.length === 0) {
       console.log("GHOST:", url);
-      console.log("----------------------");
-      return;
     }
 
     let modules = [];
+
     content.each((i, node) => {
       modules.push(detectModuleName($(node).attr("id"), $(node).attr("class")));
     });
 
-    console.log(url);
-    console.log(modules);
-    console.log("----------------------");
+    modules.forEach((m, i) =>
+      pageModules.create({ page_id: id, module_id: m, position: i + 1 })
+    );
+
+    page.updateAnalyzedAt({ analyzed_at: new Date().getTime(), id });
   } catch (error) {
     console.log("ERROR:", url);
     console.log(error.message);
@@ -52,19 +51,6 @@ const fetchPage = async url => {
   }
 };
 
-// TODO: extract to another file
-const run = async () => {
-  [markets[1]].forEach(async m => {
-    const urls = page.findAllInMarket(m).map(p => p.url);
-    await forEachSeries(urls, async url => {
-      await fetchPage(url);
-      await delay(1000);
-    });
-  });
-};
+module.exports = fetchPage;
 
-run();
-
-// fetchPage(
-//   "https://www.volvocars.com/ar/why-volvo/human-innovation/future-of-driving/safety/cars-safe-for-all"
-// );
+// fetchPage({ url: "https://www.volvocars.com/ar-ae", id: 1 });

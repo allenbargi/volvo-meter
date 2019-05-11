@@ -27,21 +27,4 @@ const fetchMarketSiteMap = async url => {
   }
 };
 
-const fetchVolvoCarsSiteMap = async url => {
-  const data = await fetchSiteMap(url);
-  const marketsSitemaps = data.sitemapindex.sitemap.map(x => x.loc._text);
-  // console.dir(marketsSitemaps, {depth: null, colors: true})
-
-  const promises = marketsSitemaps.map(marketUrl =>
-    fetchMarketSiteMap(marketUrl)
-  );
-
-  const results = await Promise.all(promises);
-  const syncWithDB = require("./sync_with_db");
-  syncWithDB(results);
-
-  const syncWithFS = require("./sync_with_fs");
-  syncWithFS(results);
-};
-
-fetchVolvoCarsSiteMap("https://www.volvocars.com/sitemap-index.xml");
+module.exports = { fetchSiteMap, fetchMarketSiteMap };
