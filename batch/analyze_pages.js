@@ -6,7 +6,7 @@ const delay = ms => new Promise(resolve => setTimeout(() => resolve(ms), ms));
 const markets = page.allMarkets().map(p => p.market);
 
 const run = async () => {
-  markets.forEach(async m => {
+  await forEachSeries(markets, async m => {
     const pages = page.findAllInMarketNotAnalyzed(m);
     await forEachSeries(pages, async page => {
       await fetchPage(page);

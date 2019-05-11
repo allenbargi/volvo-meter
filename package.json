@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fetch": "node batch/fetch_sitemap.js",
-    "analyze": "node batch/analyze_pages.js",
-    "score": "node src/lighthouse_score.js",
+    "fetch": "node batch/fetch_sitemap.js | tee logs/fetch_sitemap.log",
+    "analyze": "node batch/analyze_pages.js | tee logs/analyze_pages.log",
+    "score": "node src/lighthouse_score.js | tee logs/lighthouse_score.log",
     "bootstrap": "node db/bootstrap.js"
   },
   "keywords": [],
