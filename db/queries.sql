@@ -8,3 +8,15 @@ GROUP BY
 	market
 ORDER BY
 	numberOfPages DESC
+
+
+-- top modules
+SELECT
+	module_id,
+	count(*) AS count
+FROM
+	pages_modules
+GROUP BY
+	module_id
+ORDER BY
+	count DESC

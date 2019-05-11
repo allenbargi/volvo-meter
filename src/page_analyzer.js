@@ -13,19 +13,22 @@ const fetchPage = async ({ url, id }) => {
     const $ = cheerio.load(html);
     const root = $("#volvo");
 
-    if (!root) {
+    if (root.length !== 1) {
       throw "ROOT NOT FOUND";
     }
 
     const content = root
       .children()
       .not("script")
+      .not("noscript")
+      .not("iframe")
       .not("style")
       .not("link")
       .not("a")
       .not("footer")
       .not("nav")
       .not(".fbi-custom-style")
+      .not(".V2nav-search")
       .not("#mask")
       .not("#backupSection");
 

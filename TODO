@@ -8,3 +8,4 @@
 - find all modules used
 - extract content based on module
 - web ui on top of it
+- detect 404s and not mark them as GHOSTS
