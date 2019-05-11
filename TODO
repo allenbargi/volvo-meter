@@ -1,7 +1,7 @@
 - lighthouse score
-  - catch errors
-  - last updated
+  - on fetch determine with pages need score updates
   - use mobile/ + simulated connection
+  - lh_in_progress column
 
 - team allocation of pages
 - find all these ghost pages

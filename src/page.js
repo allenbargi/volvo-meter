@@ -38,6 +38,7 @@ class Page {
       ? NEEDS_LIGHT_HOUSE_SCORE_WITH_ID.get(id)
       : NEEDS_LIGHT_HOUSE_SCORE.get();
   updateLightHouseScore = payload => UPDATE_LIGHT_HOUSE_SCORE.run(payload);
+  allMarkets = () => db.prepare("SELECT DISTINCT market FROM pages").all();
 }
 
 module.exports = new Page();

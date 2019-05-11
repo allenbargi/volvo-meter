@@ -1,0 +1,4 @@
+- 24 markets don't have sitemap.xml
+- 156 duplicate urls in sitemap.xml
+- ? ghost pages
+- ? broken links
