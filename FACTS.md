@@ -1,4 +1,6 @@
 - 24 markets don't have sitemap.xml
 - 156 duplicate urls in sitemap.xml
+- ? 404 pages
+- 404 pages return 200! make it really hard to find
 - ? ghost pages
 - ? broken links

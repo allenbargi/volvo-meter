@@ -1,11 +1,8 @@
-- lighthouse score
-  - on fetch determine with pages need score updates
-  - use mobile/ + simulated connection
-  - lh_in_progress column
-
-- team allocation of pages
-- find all these ghost pages
-- find all modules used
+- lighthouse score for all pages
+  - lh_in_progress column or transaction
+- categorize pages
+- find all these ghost pages and 404s
 - extract content based on module
 - web ui on top of it
-- detect 404s and not mark them as GHOSTS
+- on fetch determine with pages need score updates
+- on fetch re-analyze pages

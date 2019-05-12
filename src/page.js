@@ -36,6 +36,7 @@ const UPDATE_ANALYZED_AT = db.prepare(
 class Page {
   create = payload => CREATE.run(payload);
   update = payload => UPDATE.run(payload);
+  all = () => db.prepare("SELECT * from pages").all();
   find = url => FIND.get(url);
   destroy = url => DESTROY.run(url);
   deleteAll = () => DELETE_ALL.run();

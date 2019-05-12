@@ -4,17 +4,28 @@ const page = require("./page");
 const pageModules = require("./page_modules");
 
 const detectModuleName = (id, classNames) =>
-  id ? id.split("_")[0] : classNames.split(" ").join("-");
+  id
+    ? id.split("_")[0]
+    : classNames
+    ? classNames.split(" ").join("-")
+    : "UNKNOWN";
 
 const fetchPage = async ({ url, id }) => {
   try {
-    const res = await fetch(url);
+    const res = await fetch(encodeURI(url));
     const html = await res.text();
     const $ = cheerio.load(html);
     const root = $("#volvo");
+    const is404 = () => $("h1").text() === "Oops!";
 
     if (root.length !== 1) {
-      throw "ROOT NOT FOUND";
+      if (is404()) {
+        page.updateAnalyzedAt({ analyzed_at: new Date().getTime(), id });
+        console.log("404:", url);
+        return;
+      } else {
+        throw { message: "ROOT NOT FOUND" };
+      }
     }
 
     const content = root
@@ -56,4 +67,7 @@ const fetchPage = async ({ url, id }) => {
 
 module.exports = fetchPage;
 
-// fetchPage({ url: "https://www.volvocars.com/ar-ae", id: 1 });
+// fetchPage({
+//   url: "https://www.volvocars.com/et-ee/support/bluetooth/sensus",
+//   id: 9426
+// });
