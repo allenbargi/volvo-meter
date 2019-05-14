@@ -30,3 +30,17 @@ CREATE TABLE "pages_modules" (
 
 CREATE INDEX "page_id_index" ON "pages_modules" ("page_id");
 CREATE INDEX "module_id_index" ON "pages_modules" ("module_id");
+
+CREATE VIEW ghost_pages
+AS
+SELECT
+	*
+FROM
+	pages
+WHERE
+	analyzed_at IS NOT NULL
+	AND id NOT IN (
+		SELECT
+			DISTINCT page_id
+		FROM
+			pages_modules);
