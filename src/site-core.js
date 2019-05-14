@@ -1,9 +1,16 @@
-// TODO:
-// - add .env
-
+require("dotenv").config();
 const fetch = require("isomorphic-unfetch");
+const querystring = require("querystring");
 
-class SiteCoreClient {
+// options = {
+//   language: null,
+//   version: null,
+//   fields: null,
+//   includeStandardTemplateFields: false,
+//   includeMetadata: false
+// }
+
+class SiteCoreItemClient {
   constructor(host, username, password) {
     this.host = host;
     this.username = username;
@@ -30,26 +37,48 @@ class SiteCoreClient {
     this.cookie = this.getCookie(res.headers.get("set-cookie"));
   }
 
-  async getItemByPath(path) {
+  async request(endpoint) {
     // @ts-ignore
-    const res = await fetch(
-      `${this.host}/sitecore/api/ssc/item/?path=${encodeURI(path)}`,
-      {
-        headers: { cookie: this.cookie, "Content-Type": "application/json" }
-      }
-    );
-    const json = await res.json();
-    console.log(json);
+    const res = await fetch(`${this.host}/sitecore/api/ssc/item${endpoint}`, {
+      headers: { cookie: this.cookie, "Content-Type": "application/json" }
+    });
+    return await res.json();
   }
+
+  async getItemById(id, options = {}) {
+    return await this.request(`/${id}?${querystring.stringify(options)}`);
+  }
+
+  async getItemByPath(path, options = {}) {
+    return await this.request(
+      `/?path=${encodeURI(path)}&${querystring.stringify(options)}`
+    );
+  }
+
+  async getItemChildren(id, options = {}) {
+    return await this.request(
+      `/${id}/children?${querystring.stringify(options)}`
+    );
+  }
+
+  // create
+  // edit
+  // delete
 }
 
 const run = async () => {
-  const HOST = "https://oxp.authoring.volvocars.com";
-  const USERNAME = "abargi";
-  const PASSWORD = "Power4212";
-  const sc = new SiteCoreClient(HOST, USERNAME, PASSWORD);
+  const { SC_HOST, SC_USERNAME, SC_PASSWORD } = process.env;
+  const sc = new SiteCoreItemClient(SC_HOST, SC_USERNAME, SC_PASSWORD);
   await sc.login();
-  sc.getItemByPath("/sitecore/content/CAAS");
+  const res = await sc.getItemByPath(
+    "/sitecore/content/CAAS/Content/Impressions/Content/Landing Page/components"
+  );
+
+  console.log(res);
+  const res2 = await sc.getItemById("EBC11ECA-2ADC-4AB4-9BD4-C3120F58920C");
+  const res3 = await sc.getItemChildren("EBC11ECA-2ADC-4AB4-9BD4-C3120F58920C");
+  console.log(res2);
+  console.log(res3);
 };
 
 run();
