@@ -1,4 +1,5 @@
 const page = require("./page");
+const pageModules = require("./page_modules");
 
 module.exports = function syncWithDB(results) {
   results.forEach(m => {
@@ -10,8 +11,11 @@ module.exports = function syncWithDB(results) {
             page.update({
               market: m.marketName,
               url: p.url,
-              lastmod: p.lastmod
+              lastmod: p.lastmod,
+              analyzed_at: null,
+              lh_created_at: null
             });
+          pageModules.destroyModulesForUrl(p.url);
         } else {
           page.create({
             market: m.marketName,
@@ -29,6 +33,9 @@ module.exports = function syncWithDB(results) {
     const allCurrentUrls = m.pages.map(p => p.url);
     const allDBUrls = page.findAllInMarket(m.marketName).map(p => p.url);
     const deleted = allDBUrls.filter(x => !allCurrentUrls.includes(x));
-    deleted.forEach(url => page.destroy(url));
+    deleted.forEach(url => {
+      page.destroy(url);
+      pageModules.destroyModulesForUrl(url);
+    });
   });
 };

@@ -13,7 +13,13 @@ const FIND_ALL_IN_MARKET_NOT_ANALYZED = db.prepare(
 );
 
 const UPDATE = db.prepare(
-  "UPDATE pages SET url=@url, lastmod=@lastmod, market=@market WHERE url='@url'"
+  `UPDATE pages SET
+    url=@url,
+    lastmod=@lastmod,
+    market=@market,
+    analyzed_at=@analyzed_at,
+    lh_created_at=@lh_created_at
+  WHERE url='@url'`
 );
 
 const DELETE_ALL = db.prepare("DELETE FROM pages");
