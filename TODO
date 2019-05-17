@@ -1,12 +1,8 @@
 - lighthouse score for all pages
   - lh_in_progress column or transaction
 - categorize pages
-- add --dry-run to fetch that only affects file system
-- find all these ghost pages and 404s
 - extract content based on module
 - web ui on top of it
-- on fetch determine with pages need score updates
-- on fetch re-analyze pages
 
 
 PIPELINE:

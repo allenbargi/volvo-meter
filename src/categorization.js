@@ -39,12 +39,21 @@ const orderBy = require("lodash/orderBy");
 // console.log(unmapped);
 
 const book = {};
+const unknownBook = {};
 
 const categorize = type => {
   if (book[type]) {
     book[type] += 1;
   } else {
     book[type] = 1;
+  }
+};
+
+const categorizeUnknown = type => {
+  if (unknownBook[type]) {
+    unknownBook[type] += 1;
+  } else {
+    unknownBook[type] = 1;
   }
 };
 
@@ -59,22 +68,132 @@ const normalize = type => {
     case "modelos":
     case "modeller":
     case "automobiļi":
+    case "automobiliai":
+    case "automobili":
+    case "billar":
+    case "bilar":
     case "autos":
+    case "vozila":
+    case "vozy":
+    case "coches":
+    case "gamme":
+    case "mallisto":
+    case "autod":
+    case "vozidla":
+    case "novos":
+    case "modelos-volvo":
       return "cars";
       break;
     case "find-a-dealer":
+    case "retailer":
+    case "dealer":
       return "find-a-dealer";
       break;
     case "about":
+    case "o-volvu":
+    case "um-volvo":
+    case "mondo-volvo":
+    case "ueber-volvo":
+    case "apie":
+    case "acerca-de":
       return "about";
       break;
     case "why-volvo":
+    case "porque-volvo":
+    case "despre-volvo":
+    case "waarom-volvo":
+    case "weshalb-volvo":
+    case "por-que-volvo":
+    case "zakaj-volvo":
+    case "sobre-a-volvo":
+    case "volvo-fordi":
+    case "zasto-volvo":
+    case "neden-volvo":
+    case "dlaczego-volvo":
+    case "over-volvo":
+    case "pourquoi-volvo":
+    case "más-volvo":
       return "why-volvo";
       break;
     case "homepage":
       return "homepage";
       break;
+    case "support":
+      return "support";
+      break;
+    case "own":
+    case "aga":
+    case "vlastnictvo":
+    case "own-and-enjoy":
+    case "servis-in-dodatna-oprema":
+    case "vlastnictvo":
+      return "own";
+      break;
+    case "buy":
+    case "kop":
+    case "acheter":
+    case "kopen":
+    case "comprar":
+    case "kupit":
+      return "buy";
+      break;
+    case "accessories":
+      return "accessories";
+      break;
+    case "forms":
+      return "forms";
+      break;
+    case "discover-volvo":
+      return "discover-volvo";
+      break;
+    case "services":
+    case "servicios":
+    case "sluzby":
+    case "uslugi":
+    case "servicios-cliente":
+    case "servis-i-dodatna-oprema":
+    case "service":
+    case "palvelut":
+    case "hizmetler":
+    case "услуги":
+      return "services";
+      break;
+    case "carebyvolvo":
+      return "carebyvolvo";
+      break;
+    case "redirects":
+      return "redirects";
+      break;
+    case "my-volvo":
+      return "my-volvo";
+      break;
+    case "news-and-events":
+    case "news-and-event":
+      return "news-and-events";
+      break;
+    case "sales":
+    case "vendite":
+      return "sales";
+      break;
+    case "build-your-own":
+    case "car-configurator":
+    case "konfigurieren":
+    case "build-and-price":
+    case "build":
+      return "car-configurator";
+      break;
+    case "search":
+    case "customsearch":
+      return "search";
+      break;
+    case "test-drive":
+      return "test-drive";
+      break;
+    case "footer":
+      return "footer";
+      break;
     default:
+      categorizeUnknown(type);
       return "UNKNOWN";
       // return type
       break;
@@ -91,6 +210,15 @@ page.all().map(p => {
 console.dir(
   orderBy(
     Object.keys(book).map(i => ({ name: i, value: book[i] })),
+    "value",
+    "desc"
+  ),
+  { depth: null, colors: false }
+);
+
+console.dir(
+  orderBy(
+    Object.keys(unknownBook).map(i => ({ name: i, value: unknownBook[i] })),
     "value",
     "desc"
   ),
