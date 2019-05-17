@@ -117,7 +117,7 @@ const run = async () => {
   const sc = new SiteCoreItemClient(SC_HOST, SC_USERNAME, SC_PASSWORD);
   await sc.login();
   const res4 = await sc.getItemAndAllChildrenByPath(
-    "/sitecore/content/CAAS/Content/Impressions/Content/Landing Page",
+    "/sitecore/templates/CAAS/Care By Volvo B2B",
     { language: "de-de" }
   );
   console.dir(res4, { depth: null, colors: true });
