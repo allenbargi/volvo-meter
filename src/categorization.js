@@ -204,7 +204,9 @@ page.all().map(p => {
   const [market, root, ...rest] = p.url
     .replace("https://www.volvocars.com/", "")
     .split("/");
-  categorize(normalize(root || "homepage"));
+  const category = normalize(root || "homepage");
+  page.updateCategory({ id: p.id, category });
+  categorize(category);
 });
 
 console.dir(

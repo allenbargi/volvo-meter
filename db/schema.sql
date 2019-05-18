@@ -11,10 +11,12 @@ CREATE TABLE "pages" (
   "lh_s" integer,
   "lh_created_at" datetime,
   "analyzed_at" datetime,
+  "category" text,
   PRIMARY KEY (id)
 );
 
 CREATE INDEX "market_index" ON "pages" ("market","url");
+CREATE INDEX "category_index" ON "pages" ("category");
 CREATE UNIQUE INDEX "url_index" ON "pages" ("url");
 
 DROP TABLE IF EXISTS "pages_modules";

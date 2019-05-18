@@ -3,12 +3,25 @@ const fetch = require("isomorphic-unfetch");
 const page = require("./page");
 const pageModules = require("./page_modules");
 
-const detectModuleName = (id, classNames) =>
-  id
+const detectModuleName = (id, classNames) => {
+  if (classNames.includes("oxp-richText")) {
+    return "oxp-richText";
+  }
+
+  if (classNames.includes("oxp-innovations")) {
+    return "oxp-innovations";
+  }
+
+  let moduleName = id
     ? id.split("_")[0]
     : classNames
     ? classNames.split(" ").join("-")
     : "UNKNOWN";
+  if (moduleName.includes("pdpHeroGroup")) moduleName = "pdpHeroGroup";
+  if (moduleName.includes("fullscreen-hero")) moduleName = "fullscreen-hero";
+
+  return moduleName;
+};
 
 const fetchPage = async ({ url, id }) => {
   try {
@@ -41,7 +54,8 @@ const fetchPage = async ({ url, id }) => {
       .not(".fbi-custom-style")
       .not(".V2nav-search")
       .not("#mask")
-      .not("#backupSection");
+      .not("#backupSection")
+      .not("#sticky_navigation_mobile");
 
     if (content.length === 0) {
       console.log("GHOST:", url);

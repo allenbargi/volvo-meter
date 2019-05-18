@@ -39,6 +39,10 @@ const UPDATE_ANALYZED_AT = db.prepare(
   "UPDATE pages SET analyzed_at=@analyzed_at WHERE id=@id"
 );
 
+const UPDATE_CATEGORY = db.prepare(
+  "UPDATE pages SET category=@category WHERE id=@id"
+);
+
 class Page {
   create = payload => CREATE.run(payload);
   update = payload => UPDATE.run(payload);
@@ -55,6 +59,7 @@ class Page {
       : NEEDS_LIGHT_HOUSE_SCORE.get();
   updateLightHouseScore = payload => UPDATE_LIGHT_HOUSE_SCORE.run(payload);
   updateAnalyzedAt = payload => UPDATE_ANALYZED_AT.run(payload);
+  updateCategory = payload => UPDATE_CATEGORY.run(payload);
   allMarkets = () => db.prepare("SELECT DISTINCT market FROM pages").all();
 }
 
